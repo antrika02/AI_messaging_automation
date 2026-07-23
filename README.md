@@ -24,14 +24,6 @@ An AI-powered guest messaging automation backend built using FastAPI and Postgre
 * Interactive Swagger API documentation
 
 ---
-
-# Live API
-
-**Swagger Docs:**
-https://nistula-technical-assessment-5eg6.onrender.com/docs
-
----
-
 # Tech Stack
 
 * Python
@@ -245,6 +237,3 @@ Deployment includes:
 
 ---
 
-# Author
-
-Ayush Raj
