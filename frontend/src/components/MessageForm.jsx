@@ -1,4 +1,5 @@
 import { useState } from "react";
+import api from "../services/api";
 
 function MessageForm() {
   const [source, setSource] = useState("airbnb");
@@ -6,23 +7,33 @@ function MessageForm() {
   const [bookingRef, setBookingRef] = useState("");
   const [propertyId, setPropertyId] = useState("");
   const [message, setMessage] = useState("");
+  const [result, setResult] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-   console.log("========== FORM DATA ==========");
+    const payload = {
+      source,
+      guest_name: guestName,
+      booking_ref: bookingRef,
+      property_id: propertyId,
+      message,
+      timestamp: new Date().toISOString(),
+    };
 
-console.log("Source:", source);
+    try {
+      console.log("Submitting payload...");
+      console.log(payload);
 
-console.log("Guest Name:", guestName);
+      const response = await api.post("/webhook/message", payload);
 
-console.log("Booking Ref:", bookingRef);
+      console.log("Backend Response:");
+      console.log(response.data);
 
-console.log("Property ID:", propertyId);
-
-console.log("Message:", message);
-
-console.log("===============================");
+      setResult(response.data.data);
+    } catch (error) {
+      console.error("API Error:", error);
+    }
   };
 
   return (
@@ -32,7 +43,6 @@ console.log("===============================");
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-
         {/* Source */}
         <div>
           <label className="block mb-2 font-medium">
@@ -45,7 +55,7 @@ console.log("===============================");
             className="w-full border rounded-lg p-3"
           >
             <option value="airbnb">Airbnb</option>
-            <option value="booking">Booking.com</option>
+            <option value="booking_com">Booking.com</option>
             <option value="whatsapp">WhatsApp</option>
           </select>
         </div>
@@ -65,7 +75,7 @@ console.log("===============================");
           />
         </div>
 
-        {/* Booking Ref */}
+        {/* Booking Reference */}
         <div>
           <label className="block mb-2 font-medium">
             Booking Reference
@@ -80,7 +90,7 @@ console.log("===============================");
           />
         </div>
 
-        {/* Property */}
+        {/* Property ID */}
         <div>
           <label className="block mb-2 font-medium">
             Property ID
@@ -95,7 +105,7 @@ console.log("===============================");
           />
         </div>
 
-        {/* Message */}
+        {/* Guest Message */}
         <div>
           <label className="block mb-2 font-medium">
             Guest Message
@@ -116,8 +126,56 @@ console.log("===============================");
         >
           Process Message
         </button>
-
       </form>
+
+      {/* AI Result */}
+      {result && (
+        <div className="mt-8 rounded-xl border bg-gray-50 p-6 shadow">
+          <h3 className="text-2xl font-bold text-gray-800 mb-6">
+            AI Response
+          </h3>
+
+          <div className="space-y-4">
+            <div>
+              <span className="font-semibold">
+                Query Type:
+              </span>
+
+              <p className="text-blue-600 capitalize">
+                {result.query_type}
+              </p>
+            </div>
+
+            <div>
+              <span className="font-semibold">
+                Confidence Score:
+              </span>
+
+              <p>{result.confidence_score}</p>
+            </div>
+
+            <div>
+              <span className="font-semibold">
+                Recommended Action:
+              </span>
+
+              <p className="font-bold">
+                {result.action}
+              </p>
+            </div>
+
+            <div>
+              <span className="font-semibold">
+                AI Draft Reply:
+              </span>
+
+              <div className="mt-2 rounded-lg border bg-white p-4 whitespace-pre-wrap">
+                {result.drafted_reply}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

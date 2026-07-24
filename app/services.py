@@ -90,7 +90,11 @@ def process_message(payload: webhookInput):
 
        
         try:
+            print("SessionLocal:", SessionLocal)
             db = SessionLocal()
+            print("DB object:", db)
+            print("DB bind:", db.get_bind())
+            print("DB Bind:", db.get_bind())
 
             msg = Message(
                 id=unified["message_id"],

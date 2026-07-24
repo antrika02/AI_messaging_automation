@@ -7,8 +7,15 @@ Base = declarative_base()
 
 
 try:
-    engine = create_engine(settings.DATABASE_URL, pool_pre_ping=True)
-except Exception:  # pragma: no cover
+    engine = create_engine(
+        settings.DATABASE_URL,
+        pool_pre_ping=True
+    )
+    print("Database engine created successfully!")
+
+except Exception as e:
+    print("DATABASE ENGINE ERROR:")
+    print(e)
     engine = None
 
 SessionLocal = sessionmaker(
