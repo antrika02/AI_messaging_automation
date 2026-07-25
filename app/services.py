@@ -14,20 +14,17 @@ def calculate_confidence(query_type: str, reply: str) -> float:
 
     score = 0.75
 
-    
     if query_type in [
         "pre_sales_availability",
         "pre_sales_pricing",
         "post_sales_checkin",
-         "special_request"
+        "special_request",
     ]:
         score += 0.15
 
-  
     if len(reply) > 80:
         score += 0.05
 
-   
     if "sorry" in reply.lower() or "unable" in reply.lower():
         score -= 0.25
 
@@ -36,7 +33,6 @@ def calculate_confidence(query_type: str, reply: str) -> float:
 
 def process_message(payload: webhookInput):
 
-    
     unified = {
         "message_id": uuid.uuid4(),
         "source": payload.source,
@@ -47,7 +43,6 @@ def process_message(payload: webhookInput):
         "property_id": payload.property_id,
     }
 
-   
     unified["query_type"] = classify_message(
         unified["message_text"]
     )
@@ -60,17 +55,15 @@ def process_message(payload: webhookInput):
         print("Source:", unified["source"])
         print("Query Type:", unified["query_type"])
 
-      
         reply = get_claude_reply(
             unified["message_text"]
         )
 
         print("AI Reply Generated")
 
-        
         confidence = calculate_confidence(
             unified["query_type"],
-            reply
+            reply,
         )
 
         if unified["query_type"] == "complaint":
@@ -88,13 +81,11 @@ def process_message(payload: webhookInput):
         print("Confidence Score:", confidence)
         print("Action:", action)
 
-       
         try:
             print("SessionLocal:", SessionLocal)
             db = SessionLocal()
             print("DB object:", db)
             print("DB bind:", db.get_bind())
-            print("DB Bind:", db.get_bind())
 
             msg = Message(
                 id=unified["message_id"],
@@ -119,7 +110,7 @@ def process_message(payload: webhookInput):
             db.close()
 
         print("=" * 60 + "\n")
- # Final API response
+
         return {
             "status": "success",
             "data": {
@@ -128,26 +119,95 @@ def process_message(payload: webhookInput):
                 "drafted_reply": reply,
                 "confidence_score": confidence,
                 "action": action,
-            }
+            },
         }
 
     except Exception as e:
 
         print("LLM/API Error:", e)
 
-        fallback = (
-            "Thanks for your message. "
-            "Our support team is reviewing your request "
-            "and will get back to you shortly."
-        )
+        query_type = unified["query_type"]
+        guest_name = unified["guest_name"]
+
+        if query_type == "pre_sales_availability":
+            fallback = f"""
+Hello {guest_name},
+
+Thank you for contacting us.
+
+We're currently checking availability for your requested dates and one of our team members will get back to you shortly with the details.
+
+Kind regards,
+Guest Support Team
+""".strip()
+
+        elif query_type == "pre_sales_pricing":
+            fallback = f"""
+Hello {guest_name},
+
+Thank you for your enquiry.
+
+We're currently reviewing the pricing details for your request and will get back to you shortly with accurate information.
+
+Kind regards,
+Guest Support Team
+""".strip()
+
+        elif query_type == "post_sales_checkin":
+            fallback = f"""
+Hello {guest_name},
+
+Thank you for reaching out.
+
+We're checking your booking details and one of our team members will assist you shortly.
+
+Kind regards,
+Guest Support Team
+""".strip()
+
+        elif query_type == "special_request":
+            fallback = f"""
+Hello {guest_name},
+
+Thank you for letting us know about your special request.
+
+Our team is reviewing it and will confirm the available arrangements shortly.
+
+Kind regards,
+Guest Support Team
+""".strip()
+
+        elif query_type == "complaint":
+            fallback = f"""
+Hello {guest_name},
+
+We're sorry to hear about your experience.
+
+Your concern has been forwarded to our support team, who will investigate the issue and get back to you as soon as possible.
+
+Kind regards,
+Guest Support Team
+""".strip()
+
+        else:
+            fallback = f"""
+Hello {guest_name},
+
+Thank you for contacting us.
+
+One of our team members is reviewing your request and will get back to you shortly.
+
+Kind regards,
+Guest Support Team
+""".strip()
 
         return {
             "status": "error",
             "data": {
                 "message_id": str(uuid.uuid4()),
-                "query_type": unified["query_type"],
+                "query_type": query_type,
                 "drafted_reply": fallback,
                 "confidence_score": 0.25,
                 "action": "escalate",
-            }
+            },
         }
