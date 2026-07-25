@@ -1,90 +1,295 @@
- # Nistula Technical Assessment
+# AI Guest Messaging Automation
 
-An AI-powered guest messaging automation backend built using FastAPI and PostgreSQL. The system processes guest messages received from platforms like Airbnb, WhatsApp, and Booking.com through a webhook API, classifies the intent of the message, generates AI-powered draft replies using Claude AI, and applies confidence-based escalation logic for automated handling.
-
-## Features
-
-* FastAPI backend with REST API endpoints
-* AI-powered guest message automation
-* Supports multiple booking platforms:
-
-  * Airbnb
-  * WhatsApp
-  * Booking.com
-* Intelligent query classification:
-
-  * Pricing
-  * Availability
-  * Complaints
-  * Special Requests
-* Automated draft reply generation using Claude AI
-* Confidence scoring and escalation workflow
-* PostgreSQL database integration
-* Live deployment on Render
-* Interactive Swagger API documentation
-
----
-# Tech Stack
-
-* Python
-* FastAPI
-* PostgreSQL
-* SQLAlchemy
-* Claude AI API
-* Render Deployment
+An AI-powered full-stack guest messaging automation platform built with **FastAPI**, **React**, **PostgreSQL**, and **Claude AI**. The system processes guest messages received from booking platforms such as Airbnb, Booking.com, and WhatsApp, intelligently classifies customer intent, generates contextual AI-powered replies, applies confidence-based automation logic, and provides a modern dashboard for monitoring guest interactions.
 
 ---
 
-# Project Structure
+## Overview
 
-```bash
-app/
+Managing guest communication across multiple booking platforms can become repetitive and time-consuming. This project automates that workflow by combining Large Language Models with backend business logic to generate intelligent responses while maintaining human oversight for uncertain cases.
+
+The application receives guest messages, classifies the query, generates a contextual draft response using Claude AI, calculates a confidence score, determines the recommended action (Auto Send, Agent Review, or Escalate), stores the interaction in PostgreSQL, and visualizes processed messages through a modern React dashboard.
+
+---
+
+# Live Demo
+
+### Frontend
+
+
+
+---
+
+### Backend API
+
+
+
+---
+
+### Swagger Documentation
+
+
+
+---
+
+
+# Features
+
+### AI Message Processing
+
+- AI-powered guest reply generation using Claude AI
+- Intelligent guest query classification
+- Confidence-based response evaluation
+- Automatic recommendation engine
+- Human-in-the-loop escalation workflow
+
+---
+
+### Multi Platform Support
+
+Supports guest messages from
+
+- Airbnb
+- Booking.com
+- WhatsApp
+
+---
+
+### Intelligent Query Classification
+
+Automatically classifies messages into categories including:
+
+- Pricing
+- Availability
+- Booking Information
+- Complaints
+- Special Requests
+- General Questions
+
+---
+
+### Confidence-Based Automation
+
+The system determines whether a response should be:
+
+🟢 Auto Send
+
+🟡 Agent Review
+
+🔴 Escalate
+
+---
+
+### Professional Frontend
+
+- Modern React UI
+- Responsive design
+- Loading indicators
+- Error handling
+- AI confidence badges
+- Copy-to-clipboard support
+- Toast notifications
+- Dashboard analytics
+- Recent message history
+
+---
+
+### Dashboard Analytics
+
+Displays
+
+- Total processed messages
+- Average confidence score
+- Number of escalations
+- Auto-sent responses
+- Recent guest interactions
+
+---
+
+### Database Integration
+
+All guest interactions are stored in PostgreSQL for
+
+- Analytics
+- Audit logging
+- Historical tracking
+- Future reporting
+
+---
+
+# 🏗 System Architecture
+
+```
+                    Guest Message
+
+                           │
+
+                           ▼
+
+              FastAPI Webhook Endpoint
+
+                           │
+
+                           ▼
+
+                 Query Classification
+
+                           │
+
+                           ▼
+
+                 Claude AI Generation
+
+                           │
+
+                           ▼
+
+            Confidence Score Calculation
+
+                           │
+
+                           ▼
+
+        Auto Send / Agent Review / Escalate
+
+                           │
+
+                           ▼
+
+               PostgreSQL Database
+
+                           │
+
+                           ▼
+
+              React Dashboard UI
+```
+
+---
+
+# ⚙ Tech Stack
+
+## Frontend
+
+- React
+- Vite
+- Tailwind CSS
+- Axios
+- Lucide React
+
+---
+
+## Backend
+
+- Python
+- FastAPI
+- SQLAlchemy
+- Pydantic
+
+---
+
+## Database
+
+- PostgreSQL
+
+---
+
+## AI
+
+- Claude AI API (Anthropic)
+
+---
+
+## Deployment
+
+- Render *(Backend)*
+- Vercel *(Frontend)*
+
+---
+
+## Development Tools
+
+- Git
+- GitHub
+- VS Code
+- Swagger UI
+
+---
+
+# 📂 Project Structure
+
+```
+AI_Messaging_Automation/
+
 │
-├── main.py
-├── services.py
-├── classifier.py
-├── claude_client.py
-├── db.py
-├── db_models.py
-├── models.py
+├── app/
+│   ├── main.py
+│   ├── db.py
+│   ├── models.py
+│   ├── db_models.py
+│   ├── services.py
+│   ├── classifier.py
+│   ├── claude_client.py
 │
-schema.sql
-requirements.txt
-thinking.md
-README.md
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Header.jsx
+│   │   │   ├── MessageForm.jsx
+│   │   │   └── Dashboard.jsx
+│   │   │
+│   │   ├── services/
+│   │   │   └── api.js
+│   │   │
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   │
+│   ├── package.json
+│   └── vite.config.js
+│
+├── schema.sql
+├── requirements.txt
+├── thinking.md
+└── README.md
 ```
 
 ---
 
-# Setup Instructions
+# 🛠 Installation
 
-## 1. Clone Repository
+## Clone Repository
 
 ```bash
-git clone <your-repo-url>
-cd nistula-technical-assessment
+git clone https://github.com/yourusername/AI_Messaging_Automation.git
+
+cd AI_Messaging_Automation
 ```
 
 ---
 
-## 2. Create Virtual Environment
+# Backend Setup
+
+## Create Virtual Environment
+
+Mac/Linux
 
 ```bash
-python -m venv venv
+python3 -m venv .venv
+
+source .venv/bin/activate
 ```
 
-Activate environment:
-
-### Windows
+Windows
 
 ```bash
-venv\Scripts\activate
-```
+python -m venv .venv
 
+.venv\Scripts\activate
+```
 
 ---
 
-## 3. Install Dependencies
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -92,51 +297,84 @@ pip install -r requirements.txt
 
 ---
 
-# Environment Variables
+## Configure Environment Variables
 
-Create a `.env` file and configure:
+Create a `.env` file
 
 ```env
 CLAUDE_API_KEY=your_claude_api_key
+
 DATABASE_URL=your_postgresql_database_url
 ```
 
 ---
 
-# Run Application
+## Run Backend
 
 ```bash
 uvicorn app.main:app --reload --port 8000
 ```
 
-Server runs on:
+Backend runs at
 
-```bash
+```
 http://127.0.0.1:8000
 ```
 
-Swagger docs:
+Swagger Documentation
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+# Frontend Setup
+
+Navigate into frontend
 
 ```bash
-http://127.0.0.1:8000/docs
+cd frontend
+```
+
+Install packages
+
+```bash
+npm install
+```
+
+Run React
+
+```bash
+npm run dev
+```
+
+Frontend runs at
+
+```
+http://localhost:5173
 ```
 
 ---
 
 # API Endpoint
 
-## POST `/webhook/message`
+## POST
 
-Processes incoming guest messages and returns:
+```
+/webhook/message
+```
 
-* Query classification
-* AI-generated draft reply
-* Confidence score
-* Recommended action
+Processes guest messages and returns
+
+- Query classification
+- AI draft reply
+- Confidence score
+- Recommended action
 
 ---
 
-# Sample Request
+## Sample Request
 
 ```json
 {
@@ -151,15 +389,15 @@ Processes incoming guest messages and returns:
 
 ---
 
-# Sample Response
+## Sample Response
 
 ```json
 {
   "status": "success",
   "data": {
     "message_id": "589b5d06-c33a-4e13-8173-2844509956ab",
-    "query_type": "pre_sales_pricing",
-    "drafted_reply": "Hello! Thank you for your inquiry about Villa B1.\n\nOur room rate is **INR 18,000 per night** for up to 4 guests. If you have additional guests (up to 6 maximum), there's an extra charge of INR 2,000 per night per person.\n\nThe villa features 3 bedrooms, a private pool, and can accommodate up to 6 guests total.\n\nPlease let me know your travel dates and number of guests, and I'll be happy to provide you with the exact pricing and check availability for your stay.\n\nBest regards,\nVilla Concierge Team",
+    "query_type": "availability",
+    "drafted_reply": "Hello Rahul,\n\nYes, Villa B1 is available...",
     "confidence_score": 0.95,
     "action": "auto_send"
   }
@@ -170,70 +408,66 @@ Processes incoming guest messages and returns:
 
 # Confidence Scoring Logic
 
-Location: `app/services.py`
+| Score | Recommended Action |
+|---------|-------------------|
+| ≥ 0.90 | 🟢 Auto Send |
+| 0.60 – 0.89 | 🟡 Agent Review |
+| < 0.60 | 🔴 Escalate |
 
-## Heuristic Rules
+Additional business rules:
 
-| Rule                               | Score |
-| ---------------------------------- | ----- |
-| Base score                         | 0.75  |
-| Pricing / Availability query       | +0.15 |
-| Reply length > 80 chars            | +0.05 |
-| Reply contains "sorry" or "unable" | -0.25 |
-
----
-
-# Action Logic
-
-| Confidence Score | Action       |
-| ---------------- | ------------ |
-| > 0.85           | auto_send    |
-| 0.60 - 0.85      | agent_review |
-| < 0.60           | escalate     |
-
-Complaints are automatically escalated for safety.
+- Complaints are automatically escalated.
+- Low-confidence AI responses require human review.
+- High-confidence responses can be automatically sent.
 
 ---
 
-# Database
+# Current Features
 
-Guest interactions are stored in PostgreSQL for:
-
-* Tracking
-* Auditing
-* Analytics
-* Future escalation workflows
-
-Database schema available in:
-
-```bash
-schema.sql
-```
-
----
-
-# Additional Files
-
-| File               | Purpose                  |
-| ------------------ | ------------------------ |
-| `schema.sql`       | PostgreSQL schema        |
-| `thinking.md`      | Technical design answers |
-| `services.py`      | Core processing logic    |
-| `classifier.py`    | Query classification     |
-| `claude_client.py` | Claude AI integration    |
+- AI-powered guest messaging
+- Claude AI integration
+- PostgreSQL persistence
+- FastAPI REST APIs
+- React frontend
+- Analytics dashboard
+- Confidence scoring
+- Human review workflow
+- Loading states
+- Toast notifications
+- Copy AI reply
+- Responsive UI
 
 ---
 
-# Deployment
+# Learning Outcomes
 
-The backend is deployed on Render with live API endpoints.
+This project demonstrates practical experience with:
 
-Deployment includes:
-
-* FastAPI backend
-* PostgreSQL integration
-* Swagger documentation
-* Production-ready webhook API
+- FastAPI backend development
+- REST API design
+- SQLAlchemy ORM
+- PostgreSQL integration
+- React component architecture
+- API consumption with Axios
+- State management using React Hooks
+- Prompt engineering
+- Claude AI integration
+- Confidence-based business logic
+- Production UI design
+- Full-stack application development
 
 ---
 
+# Author
+
+**Antrika Kashyap**
+
+GitHub
+
+> https://github.com/antrika02
+
+LinkedIn
+
+> https://www.linkedin.com/in/antrika-kashyap-070502250/
+
+---
