@@ -1,8 +1,9 @@
-fastapi
-uvicorn[standard]
-python-dotenv
-httpx
-pydantic
-requests
-sqlalchemy
-psycopg2-binary
+fastapi==0.116.1
+starlette==0.47.2
+uvicorn[standard]==0.35.0
+pydantic==2.11.7
+python-dotenv==1.1.1
+httpx==0.28.1
+requests==2.32.4
+sqlalchemy==2.0.43
+psycopg2-binary==2.9.10
