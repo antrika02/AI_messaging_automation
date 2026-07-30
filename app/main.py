@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import fastapi
+import starlette
 
+print("FastAPI Version:", fastapi.__version__)
+print("Starlette Version:", starlette.__version__)
 from app.db import Base, engine
 import app.db_models
 
@@ -8,7 +12,7 @@ Base.metadata.create_all(bind=engine)
 
 from app.models import webhookInput
 from app.services import process_message
-app = FastAPI(title="Nistula Guest Messaging System")
+app = FastAPI(title="AI Message Automation System")
 
 
 app.add_middleware(
